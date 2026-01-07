@@ -7,486 +7,686 @@
 
   <style>
     :root{
-      --bg:#ffffff;
+      --bg:#f4f6fb;
+      --card:#ffffff;
       --text:#111827;
       --muted:#6b7280;
-      --card:#ffffff;
       --border:#e5e7eb;
-      --shadow:0 10px 28px rgba(17,24,39,.10);
+      --shadow:0 10px 30px rgba(0,0,0,.08);
 
-      --primary:#1d4ed8;
-      --primaryText:#ffffff;
+      --primary:#3b82f6;
+      --primary2:#2563eb;
 
-      --okBg:#ecfdf5;   --okBd:#a7f3d0;   --okTx:#065f46;
-      --warnBg:#fffbeb; --warnBd:#fcd34d; --warnTx:#92400e;
-      --badBg:#fef2f2;  --badBd:#fecaca;  --badTx:#991b1b;
+      --ok-bg:#e7f7ef;
+      --ok-text:#065f46;
+
+      --warn-bg:#fff7e6;
+      --warn-text:#8a5b00;
+
+      --err-bg:#ffecec;
+      --err-text:#8b1b1b;
+
+      --radius:22px;
     }
 
-    html, body{
-      width:100%;
-      max-width:100%;
+    html,body{
       margin:0;
       padding:0;
-      overflow-x:hidden;
+      width:100%;
       background:var(--bg);
       color:var(--text);
-      -webkit-text-size-adjust: 100%;
-      text-size-adjust: 100%;
       font-family: system-ui, -apple-system, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      -webkit-text-size-adjust: 100%;
     }
 
     .page{
-      width:100vw;
-      min-height:100vh;
+      min-height:100dvh;
       display:flex;
-      justify-content:center;
       align-items:flex-start;
+      justify-content:center;
+      padding:22px 16px;
       box-sizing:border-box;
-      padding: 16px;
-      padding-top: calc(28px + env(safe-area-inset-top));
-      padding-bottom: calc(16px + env(safe-area-inset-bottom));
-      background: var(--bg);
     }
 
-    .container{ width:100%; max-width: 460px; }
-    .small{ color:var(--muted); font-size: 13px; margin: 0 0 10px; }
+    .container{
+      width:100%;
+      max-width:520px;
+    }
+
+    .crumb{
+      color:var(--muted);
+      font-size:14px;
+      margin:6px 4px 12px;
+    }
 
     .card{
-      width:100%;
       background:var(--card);
-      border:1px solid rgba(229,231,235,.95);
-      border-radius: 20px;
-      padding: 22px;
-      box-shadow: var(--shadow);
-      box-sizing:border-box;
-    }
-
-    .title{
-      font-size: 22px;
-      font-weight: 900;
-      margin: 6px 0 14px;
-      letter-spacing: .2px;
-      line-height: 1.2;
-    }
-
-    .field{ margin: 14px 0; }
-
-    label{
-      display:block;
-      font-size: 14px;
-      margin-bottom: 8px;
-      color: var(--muted);
-      font-weight: 700;
-    }
-
-    input, select{
-      width: 100%;
-      font-size: 18px;
-      padding: 14px 12px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: #ffffff;
-      color: var(--text);
-      outline:none;
-      box-sizing: border-box;
-    }
-
-    input::placeholder{ color:#9ca3af; }
-    input:focus, select:focus{
-      border-color: rgba(29,78,216,.55);
-      box-shadow: 0 0 0 4px rgba(29,78,216,.12);
-    }
-
-    button{
-      width: 100%;
-      font-size: 20px;
-      font-weight: 900;
-      padding: 14px 12px;
-      border-radius: 16px;
-      border: 0;
-      background: var(--primary);
-      color: var(--primaryText);
-      cursor:pointer;
-      box-sizing:border-box;
-      box-shadow: 0 10px 18px rgba(29,78,216,.18);
-      transition: transform .06s ease, box-shadow .12s ease, opacity .12s ease;
-    }
-    button:active{ transform: translateY(1px); box-shadow: 0 6px 12px rgba(29,78,216,.16); }
-    button:disabled{ opacity:.55; cursor:not-allowed; box-shadow:none; }
-
-    .btnSecondary{
-      background:#ffffff;
-      color:var(--text);
       border:1px solid var(--border);
-      box-shadow:none;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:22px;
+      box-sizing:border-box;
     }
 
-    .center{ text-align:center; }
+    h1{
+      margin:0 0 14px 0;
+      font-size:32px;
+      letter-spacing:.5px;
+    }
 
-    .rule{
-      margin-top: 12px;
-      font-size: 13px;
-      line-height: 1.5;
-      color: var(--warnTx);
-      background: var(--warnBg);
-      border: 1px solid var(--warnBd);
-      border-radius: 14px;
-      padding: 10px 12px;
+    .label{
+      font-size:15px;
+      color:var(--muted);
+      margin:12px 0 8px;
+    }
+
+    input, select, button{
+      width:100%;
+      box-sizing:border-box;
+      border-radius:16px;
+      border:1px solid var(--border);
+      padding:16px 16px;
+      font-size:18px;
+      outline:none;
+      background:#fff;
+    }
+
+    input{
+      font-size:22px;
+      letter-spacing:1px;
+    }
+
+    /* iOS 避免自動放大 */
+    input, select, button{
+      -webkit-appearance:none;
+      appearance:none;
+      font-size:16px !important;
+    }
+    input{
+      font-size:22px !important;
+    }
+
+    input:focus, select:focus{
+      border-color:#93c5fd;
+      box-shadow:0 0 0 4px rgba(59,130,246,.15);
     }
 
     .hint{
-      margin: 10px 0 0;
-      font-size: 14px;
-      font-weight: 800;
-      border-radius: 14px;
-      padding: 10px 12px;
-      border: 1px solid var(--border);
-      background: #f3f4f6;
-      color: var(--text);
+      font-size:13px;
+      color:var(--muted);
+      margin:8px 4px 0;
+      line-height:1.4;
     }
-    .hintBad{ background: var(--badBg); border-color: var(--badBd); color: var(--badTx); }
-    .hintWarn{ background: var(--warnBg); border-color: var(--warnBd); color: var(--warnTx); }
-    .hidden{ display:none !important; }
 
-    .resultIcon{ font-size: 48px; margin: 6px 0 2px; }
-    .resultTitle{ font-size: 30px; font-weight: 1000; margin: 4px 0 6px; }
-    .resultCount{ font-size: 44px; font-weight: 1000; margin: 8px 0 12px; letter-spacing:.2px; }
+    .btn{
+      margin-top:16px;
+      border:none;
+      padding:18px 16px;
+      border-radius:18px;
+      font-size:26px !important;
+      font-weight:800;
+      cursor:pointer;
+      background:linear-gradient(180deg, var(--primary), var(--primary2));
+      color:#fff;
+    }
+    .btn:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+    }
 
+    .notice{
+      margin-top:14px;
+      border-radius:16px;
+      padding:14px 14px;
+      border:1px solid rgba(0,0,0,.06);
+      line-height:1.45;
+      display:none;
+    }
+    .notice.warn{ background:var(--warn-bg); color:var(--warn-text); display:block; }
+    .notice.err{ background:var(--err-bg); color:var(--err-text); display:block; }
+    .notice.ok{ background:var(--ok-bg); color:var(--ok-text); display:block; }
+
+    .footerNote{
+      margin-top:14px;
+      border-radius:16px;
+      padding:14px 14px;
+      background:var(--warn-bg);
+      color:var(--warn-text);
+      border:1px solid rgba(0,0,0,.06);
+      line-height:1.45;
+      font-size:16px;
+    }
+
+    /* 成功畫面 */
+    .resultWrap{
+      text-align:center;
+      padding:10px 0 6px;
+    }
+    .checkIcon{
+      width:74px;
+      height:74px;
+      border-radius:16px;
+      margin:6px auto 10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#22c55e;
+      color:#fff;
+      font-size:44px;
+      font-weight:900;
+      box-shadow:0 10px 24px rgba(34,197,94,.25);
+    }
+    .resultTitle{
+      font-size:28px;
+      font-weight:900;
+      margin:6px 0 10px;
+      color:#065f46;
+    }
+    .bigLine{
+      font-size:44px;
+      font-weight:900;
+      margin:10px 0 14px;
+      color:#065f46;
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns: 120px 1fr;
+      gap:10px 12px;
+      text-align:left;
+      margin:10px 0 2px;
+      font-size:18px;
+    }
+    .kv .k{
+      color:var(--muted);
+    }
+    .kv .v{
+      font-weight:700;
+      justify-self:end;
+    }
     .pill{
       display:inline-block;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: #f3f4f6;
-      border:1px solid var(--border);
-      font-weight: 800;
+      padding:8px 12px;
+      border-radius:999px;
+      background:#eef2ff;
+      color:#3730a3;
+      font-weight:900;
+      letter-spacing:.5px;
+      border:1px solid rgba(55,48,163,.12);
     }
 
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 10px;
+    /* 成功後：只留一顆「結束離開」 */
+    .btnExit{
+      margin-top:16px;
+      border:none;
+      padding:18px 16px;
+      border-radius:18px;
+      font-size:26px !important;
+      font-weight:900;
+      cursor:pointer;
+      background:linear-gradient(180deg, #1d4ed8, #1e40af);
+      color:#fff;
+      width:100%;
+    }
+
+    .centerNote{
+      margin-top:12px;
+      border-radius:16px;
+      padding:12px 14px;
+      background:var(--warn-bg);
+      color:var(--warn-text);
+      border:1px solid rgba(0,0,0,.06);
+      font-size:16px;
+      text-align:left;
     }
 
     .row{
       display:flex;
-      justify-content:space-between;
-      gap: 12px;
-      margin-top: 10px;
-      font-size: 16px;
-      align-items: center;
+      gap:10px;
+      margin-top:14px;
+    }
+    .row button{
+      flex:1;
+      padding:16px 14px;
+      border-radius:16px;
+      font-size:18px !important;
+      font-weight:800;
+      cursor:pointer;
+      border:1px solid var(--border);
+      background:#fff;
     }
 
-    .muted{ color:var(--muted); }
-    .ok{ background:var(--okBg); border-color: var(--okBd); }
-    .warn{ background:var(--warnBg); border-color: var(--warnBd); }
-    .bad{ background:var(--badBg); border-color: var(--badBd); }
-    .okText{ color:var(--okTx); }
-    .warnText{ color:var(--warnTx); }
-    .badText{ color:var(--badTx); }
+    .hidden{ display:none !important; }
   </style>
 </head>
 
 <body>
   <div class="page">
     <div class="container">
-      <div class="small">《國有器官》台南放映｜入場核銷</div>
+      <div class="crumb">《國有器官》台南放映｜入場核銷</div>
 
-      <div id="viewForm" class="card">
-        <div class="title">請輸入手機完成入場</div>
+      <!-- 表單卡 -->
+      <div id="cardForm" class="card">
+        <h1>請輸入手機完成入場</h1>
 
-        <div class="field">
-          <label>手機號碼（09 開頭）</label>
-          <input id="phone" inputmode="numeric" placeholder="例如：0912345678 或 912345678" />
-        </div>
+        <div class="label">手機號碼（09 開頭）</div>
+        <input
+          id="phone"
+          type="text"
+          inputmode="numeric"
+          autocomplete="off"
+          placeholder="例如：0912345678"
+        />
+        <div class="hint">可直接輸入 <b>09xxxxxxxx</b> 或 <b>9xxxxxxxx</b>（系統會自動補 0）</div>
 
-        <div id="hint" class="hint hidden"></div>
+        <!-- 訊息區：不會在「未輸完」時出現 -->
+        <div id="msg" class="notice"></div>
 
-        <div class="field">
-          <label>本次入場人數</label>
-          <select id="count" disabled>
-            <option value="">請先輸入手機</option>
-          </select>
-        </div>
+        <div class="label">本次入場人數</div>
+        <select id="count" disabled>
+          <option value="">請先輸入手機</option>
+        </select>
 
-        <button id="btnCheck" onclick="checkIn()" disabled>確認入場</button>
+        <button id="btnSubmit" class="btn" disabled>確認入場</button>
 
-        <div class="rule">
-          ⚠️ 本次入場人數＝「現在站在入口的人數」<br/>
+        <div class="footerNote">
+          ⚠️ 本次入場人數＝「現在站在入口的人數」<br />
           按下後請勿重複操作，請等結果畫面
         </div>
       </div>
 
-      <div id="viewLoading" class="card center hidden">
-        <div class="resultIcon">⏳</div>
-        <div class="resultTitle">正在核銷…</div>
-        <div class="muted">請勿重複按，約 1–3 秒顯示結果</div>
-      </div>
+      <!-- 結果卡 -->
+      <div id="cardResult" class="card hidden"></div>
 
-      <div id="viewResult" class="card hidden"></div>
-
-      <!-- 非成功狀態才顯示（服務台用） -->
-      <div id="viewActions" class="grid hidden">
-        <button onclick="backToForm()">返回重核銷</button>
-        <button class="btnSecondary" onclick="resetAll()">清除重填</button>
+      <!-- 完成離開卡（最簡） -->
+      <div id="cardDone" class="card hidden">
+        <div class="resultWrap">
+          <div class="resultTitle">已完成入場核銷</div>
+          <div class="hint" style="font-size:16px;">請直接關閉此頁面（或返回上一頁）</div>
+          <button id="btnExitDone" class="btnExit" type="button">結束離開</button>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-    const elPhone = document.getElementById('phone');
-    const elCount = document.getElementById('count');
-    const elBtn   = document.getElementById('btnCheck');
-    const elHint  = document.getElementById('hint');
+    /**
+     * 你現在是 Netlify 版本：
+     * - lookup:  /.netlify/functions/lookup
+     * - checkin: /.netlify/functions/checkin
+     */
+    const ENDPOINT_LOOKUP = "/.netlify/functions/lookup";
+    const ENDPOINT_CHECKIN = "/.netlify/functions/checkin";
 
-    const viewForm    = document.getElementById('viewForm');
-    const viewLoading = document.getElementById('viewLoading');
-    const viewResult  = document.getElementById('viewResult');
-    const viewActions = document.getElementById('viewActions');
+    const elPhone = document.getElementById("phone");
+    const elCount = document.getElementById("count");
+    const elMsg = document.getElementById("msg");
+    const elBtnSubmit = document.getElementById("btnSubmit");
 
-    let lastLookup = null;
+    const cardForm = document.getElementById("cardForm");
+    const cardResult = document.getElementById("cardResult");
+    const cardDone = document.getElementById("cardDone");
+    const btnExitDone = document.getElementById("btnExitDone");
+
     let lookupTimer = null;
+    let lastLookupPhone = "";
+    let lookupCache = new Map(); // phone -> data
+    let currentLookup = null;     // latest lookup data
 
-    function show(view) {
-      viewForm.classList.add('hidden');
-      viewLoading.classList.add('hidden');
-      viewResult.classList.add('hidden');
-      view.classList.remove('hidden');
+    // ---- 工具：訊息顯示 ----
+    function clearMsg() {
+      elMsg.className = "notice";
+      elMsg.textContent = "";
+      elMsg.style.display = "none";
+    }
+    function showMsg(type, text) {
+      elMsg.className = "notice " + type; // warn / err / ok
+      elMsg.textContent = text;
+      elMsg.style.display = "block";
     }
 
-    function showHint(msg, type) {
-      if (!msg) { elHint.classList.add('hidden'); return; }
-      elHint.textContent = msg;
-      elHint.classList.remove('hidden');
-      elHint.classList.remove('hintBad','hintWarn');
-      if (type === 'bad') elHint.classList.add('hintBad');
-      else if (type === 'warn') elHint.classList.add('hintWarn');
+    // ---- 工具：fetch timeout ----
+    async function fetchJSON(url, payload, timeoutMs = 9000) {
+      const controller = new AbortController();
+      const t = setTimeout(() => controller.abort(), timeoutMs);
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+          signal: controller.signal
+        });
+        const text = await res.text();
+        let data = null;
+        try { data = JSON.parse(text); } catch (e) { data = { ok:false, raw:text }; }
+        return { httpOk: res.ok, status: res.status, data };
+      } finally {
+        clearTimeout(t);
+      }
     }
 
-    function hideActions_(){
-      viewActions.classList.add('hidden');
-      viewActions.style.display = 'none';
-    }
-    function showActions_(){
-      viewActions.classList.remove('hidden');
-      viewActions.style.display = 'grid';
-    }
+    // ---- 手機號碼正規化 ----
+    function normalizePhone(input) {
+      const digits = String(input || "").replace(/\D/g, ""); // 只留數字
+      if (!digits) return { ok:false, digits:"", phone:"" };
 
-    function resetAll() {
-      elPhone.value = '';
-      showHint('', '');
-      elCount.innerHTML = `<option value="">請先輸入手機</option>`;
-      elCount.disabled = true;
-      elBtn.disabled = true;
-      lastLookup = null;
-      hideActions_();
-      show(viewForm);
+      // 允許 9xxxxxxxx（9位）自動補 0
+      if (digits.length === 9 && digits.startsWith("9")) {
+        return { ok:true, digits, phone:"0" + digits };
+      }
+      // 正常 09xxxxxxxx（10位）
+      if (digits.length === 10 && digits.startsWith("0")) {
+        return { ok:true, digits, phone:digits };
+      }
+
+      // 其他長度：不在輸入過程中提示，只在提交時處理
+      return { ok:false, digits, phone:"" };
     }
 
-    function backToForm() {
-      hideActions_();
-      show(viewForm);
+    function setFormEnabled(enabled) {
+      elPhone.disabled = !enabled;
+      elCount.disabled = !enabled || !currentLookup || !currentLookup.ok;
+      elBtnSubmit.disabled = !enabled || !currentLookup || !currentLookup.ok || !elCount.value;
     }
 
-    function endAndExit(){
-      try { window.close(); } catch(e) {}
-      document.body.innerHTML = `
-        <div style="font-family:system-ui,-apple-system,'Noto Sans TC','Microsoft JhengHei',sans-serif;
-                    padding:24px; text-align:center;">
-          <div style="font-size:22px; font-weight:900; margin-top:18px;">已完成入場核銷</div>
-          <div style="margin-top:10px; color:#6b7280; font-size:14px; line-height:1.6;">
-            請直接關閉此頁面（或返回上一頁）
-          </div>
-        </div>
-      `;
-    }
-
-    function digitsOnly(s){ return String(s||'').replace(/\D/g,''); }
-
-    // 只在「完整格式」才查（避免輸入中誤導）
-    function isReadyToLookup(d){
-      if (/^9\d{8}$/.test(d)) return true;        // 9碼：9xxxxxxxx
-      if (/^09\d{8}$/.test(d)) return true;       // 10碼：09xxxxxxxx
-      if (/^8869\d{8}$/.test(d)) return true;     // 8869xxxxxxxx
-      if (/^88609\d{8}$/.test(d)) return true;    // 88609xxxxxxxx（保險）
-      return false;
-    }
-
-    function setCountOptions(remaining) {
-      const max = Math.max(0, remaining || 0);
-      if (max <= 0) {
-        elCount.innerHTML = `<option value="">名額已用完</option>`;
+    function fillCountOptions(remaining) {
+      elCount.innerHTML = "";
+      if (!remaining || remaining <= 0) {
+        const opt = document.createElement("option");
+        opt.value = "";
+        opt.textContent = "無可入場名額";
+        elCount.appendChild(opt);
         elCount.disabled = true;
-        elBtn.disabled = true;
         return;
       }
-      let html = `<option value="">請選擇人數</option>`;
-      for (let i = 1; i <= max; i++) html += `<option value="${i}">${i}</option>`;
-      elCount.innerHTML = html;
+      const opt0 = document.createElement("option");
+      opt0.value = "";
+      opt0.textContent = "請選擇人數";
+      elCount.appendChild(opt0);
+
+      const maxShow = Math.min(remaining, 8); // 避免下拉太長
+      for (let i = 1; i <= maxShow; i++) {
+        const opt = document.createElement("option");
+        opt.value = String(i);
+        opt.textContent = String(i);
+        elCount.appendChild(opt);
+      }
       elCount.disabled = false;
-      elBtn.disabled = true;
     }
 
-    elCount.addEventListener('change', () => {
-      elBtn.disabled = !(lastLookup && lastLookup.ok && elCount.value);
-    });
+    // ---- Lookup（自動觸發：輸入到 9/10 位後才查，不會半途提示錯誤）----
+    async function doLookupByInput() {
+      clearMsg();
 
-    // debounce：停 300ms 才查
-    elPhone.addEventListener('input', () => {
-      const d = digitsOnly(elPhone.value.trim());
+      const norm = normalizePhone(elPhone.value);
 
-      lastLookup = null;
-      elBtn.disabled = true;
-      elCount.disabled = true;
-      elCount.innerHTML = `<option value="">請先輸入手機</option>`;
+      // 未輸完：什麼都不顯示、不查
+      if (!norm.digits || norm.digits.length < 9) {
+        currentLookup = null;
+        elCount.disabled = true;
+        elCount.innerHTML = `<option value="">請先輸入手機</option>`;
+        elBtnSubmit.disabled = true;
+        return;
+      }
 
-      // 輸入中不顯示任何「手機不正確」
-      showHint('', '');
+      // 只有在 9 或 10 位時才查
+      if (!(norm.digits.length === 9 || norm.digits.length === 10) || !norm.ok) {
+        // 依然不在輸入過程中顯示「不正確」，避免誤導
+        currentLookup = null;
+        elCount.disabled = true;
+        elCount.innerHTML = `<option value="">請先輸入完整手機</option>`;
+        elBtnSubmit.disabled = true;
+        return;
+      }
 
-      if (!isReadyToLookup(d)) return;
+      const phone = norm.phone;
 
-      showHint('查詢中…', 'warn');
-      if (lookupTimer) clearTimeout(lookupTimer);
-      lookupTimer = setTimeout(() => lookup(), 300);
-    });
-
-    async function postJSON(url, data){
-      const r = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      return await r.json();
-    }
-
-    async function lookup() {
-      try{
-        const res = await postJSON("/.netlify/functions/lookup", { phone: elPhone.value });
-        lastLookup = res;
-
-        if (!res || !res.ok) {
-          const status = res && res.status ? res.status : 'error';
-
-          if (status === 'not_found') {
-            showHint('查無此人，請跟服務台聯絡', 'bad');
-            elCount.innerHTML = `<option value="">查無此人</option>`;
-          } else {
-            showHint('系統忙碌，請稍後再試', 'warn');
-            elCount.innerHTML = `<option value="">系統忙碌</option>`;
-          }
-
+      // 快取
+      if (lookupCache.has(phone)) {
+        currentLookup = lookupCache.get(phone);
+        if (currentLookup.ok) {
+          fillCountOptions(currentLookup.remaining);
+          setFormEnabled(true);
+        } else {
+          elCount.innerHTML = `<option value="">查無此人</option>`;
           elCount.disabled = true;
-          elBtn.disabled = true;
+          elBtnSubmit.disabled = true;
+          showMsg("err", "查無此人，請跟服務台聯絡");
+        }
+        return;
+      }
+
+      // 避免同號重複查
+      if (phone === lastLookupPhone) return;
+      lastLookupPhone = phone;
+
+      // UI：查詢中
+      setFormEnabled(false);
+      elCount.disabled = true;
+      elCount.innerHTML = `<option value="">查詢中…</option>`;
+
+      const payload = {
+        rawPhone: phone,   // 盡量符合你 Netlify function log 的欄位
+        phone: phone
+      };
+
+      let resp;
+      try {
+        resp = await fetchJSON(ENDPOINT_LOOKUP, payload, 9000);
+      } catch (e) {
+        currentLookup = null;
+        elCount.innerHTML = `<option value="">系統忙碌</option>`;
+        showMsg("warn", "系統忙碌，請稍後再試");
+        return;
+      }
+
+      const data = resp.data || {};
+      // 允許多種回傳格式（相容你現有後端）
+      const ok = Boolean(data.ok);
+      const status = data.status || (ok ? "ok" : "error");
+
+      if (!ok) {
+        currentLookup = { ok:false, status };
+
+        // 你要的：手機不對/查不到 → 直接顯示「查無此人…」
+        if (status === "not_found" || status === "no_user" || status === "notfound") {
+          elCount.innerHTML = `<option value="">查無此人</option>`;
+          elCount.disabled = true;
+          elBtnSubmit.disabled = true;
+          showMsg("err", "查無此人，請跟服務台聯絡");
+          lookupCache.set(phone, currentLookup);
           return;
         }
 
-        showHint('', '');
-        setCountOptions(res.remaining);
-      }catch(e){
-        showHint('系統忙碌，請稍後再試', 'warn');
+        // 忙碌/錯誤
         elCount.innerHTML = `<option value="">系統忙碌</option>`;
         elCount.disabled = true;
-        elBtn.disabled = true;
-      }
-    }
-
-    async function checkIn() {
-      const phone = elPhone.value.trim();
-      const count = elCount.value;
-
-      if (!count) {
-        alert('請選擇本次入場人數');
+        elBtnSubmit.disabled = true;
+        showMsg("warn", "系統忙碌，請稍後再試");
+        lookupCache.set(phone, currentLookup);
         return;
       }
 
-      elBtn.disabled = true;
-      hideActions_();
-      show(viewLoading);
+      const remaining =
+        Number(data.remaining ?? data.remain ?? data.left ?? data.data?.remaining ?? 0);
 
-      try{
-        const res = await postJSON("/.netlify/functions/checkin", { phone, count });
-        renderResult(res);
-      }catch(e){
-        renderResult({ ok:false, status:'error', message:'系統忙碌或發生錯誤，請再試一次。' });
-      }
+      currentLookup = {
+        ok: true,
+        status: "ok",
+        remaining,
+        // 下面資訊若後端有回傳，就拿來顯示在成功畫面
+        code: data.code ?? data.ticketCode ?? "",
+        suffix3: data.suffix3 ?? data.last3 ?? "",
+        nameMasked: data.nameMasked ?? data.name_masked ?? "",
+        registered: data.registered ?? data.total ?? null,
+        used: data.used ?? data.checkedIn ?? null
+      };
+
+      lookupCache.set(phone, currentLookup);
+      fillCountOptions(remaining);
+      setFormEnabled(true);
     }
 
-    function renderResult(res) {
-      viewResult.className = 'card';
+    // ---- Checkin ----
+    async function doCheckin() {
+      clearMsg();
 
-      // 最關鍵：先把底部按鈕徹底隱藏（避免殘留）
-      hideActions_();
-
-      if (res && res.ok && res.status === 'success') {
-        viewResult.classList.add('ok');
-        viewResult.innerHTML = `
-          <div class="small">《國有器官》台南放映｜入場核銷</div>
-
-          <div class="center okText">
-            <div class="resultIcon">✅</div>
-            <div class="resultTitle">已放行</div>
-            <div class="resultCount">本次入場：${res.countThisTime} 人</div>
-          </div>
-
-          <div class="row"><div class="muted">入場碼</div><div class="pill">${escapeHtml(res.code || '—')}</div></div>
-          <div class="row"><div class="muted">手機末 3 碼</div><div><b>${escapeHtml(res.suffix || '—')}</b></div></div>
-          <div class="row"><div class="muted">姓名</div><div><b>${escapeHtml(res.nameMasked || '—')}</b></div></div>
-
-          <div class="row"><div class="muted">報名 / 已入場 / 剩餘</div>
-            <div><b>${res.qty} / ${res.used} / ${res.remaining}</b></div>
-          </div>
-
-          <div class="row"><div class="muted">核銷時間</div><div><b>${escapeHtml(res.timeText || '')}</b></div></div>
-
-          <div class="rule">請出示此畫面入場</div>
-
-          <div style="margin-top:12px;">
-            <button onclick="endAndExit()">結束離開</button>
-          </div>
-        `;
-        show(viewResult);
+      const norm = normalizePhone(elPhone.value);
+      if (!norm.ok) {
+        // 不用「不正確」字眼，避免誤導
+        showMsg("warn", "請先輸入完整手機號碼（可輸入 09xxxxxxxx 或 9xxxxxxxx）");
+        return;
+      }
+      if (!elCount.value) {
+        showMsg("warn", "請選擇本次入場人數");
         return;
       }
 
-      // 非成功：顯示服務台用按鈕
-      showActions_();
+      setFormEnabled(false);
+      elBtnSubmit.textContent = "處理中…";
 
-      const status = (res && res.status) || 'error';
-      const msg = (res && res.message) || '系統忙碌，請再試一次。';
+      const payload = {
+        rawPhone: norm.phone,
+        phone: norm.phone,
+        count: Number(elCount.value)
+      };
 
-      if (status === 'insufficient') viewResult.classList.add('warn');
-      else viewResult.classList.add('bad');
+      let resp;
+      try {
+        resp = await fetchJSON(ENDPOINT_CHECKIN, payload, 12000);
+      } catch (e) {
+        showMsg("warn", "系統忙碌，請稍後再試");
+        elBtnSubmit.textContent = "確認入場";
+        setFormEnabled(true);
+        return;
+      }
 
-      const icon = (status === 'insufficient') ? '⚠️' : '⛔';
-      const textClass = (status === 'insufficient') ? 'warnText' : 'badText';
+      const data = resp.data || {};
+      if (!data.ok) {
+        const status = data.status || "error";
 
-      viewResult.innerHTML = `
-        <div class="small">《國有器官》台南放映｜入場核銷</div>
+        // 查無此人（你指定的訊息）
+        if (status === "not_found" || status === "no_user" || status === "notfound") {
+          showMsg("err", "查無此人，請跟服務台聯絡");
+          elBtnSubmit.textContent = "確認入場";
+          setFormEnabled(true);
+          return;
+        }
 
-        <div class="center ${textClass}">
-          <div class="resultIcon">${icon}</div>
-          <div class="resultTitle">${escapeHtml(msg)}</div>
+        // 名額不足 / 已入場 等
+        const msg = data.message || data.msg || "系統忙碌，請稍後再試";
+        showMsg(status === "busy" ? "warn" : "err", msg);
+        elBtnSubmit.textContent = "確認入場";
+        setFormEnabled(true);
+        return;
+      }
+
+      // 成功：顯示結果畫面（並「不出現 返回重核銷 / 清除重填」）
+      renderSuccess(data);
+    }
+
+    function renderSuccess(data) {
+      // 你的要求：成功後只留「結束離開」→ 直接用 cardDone（最乾淨）
+      // 如果你要保留詳細資料，就改用 cardResult 版本；我這裡先給你「保留詳細」但仍只留一顆離開鍵。
+      const countThis = Number(data.countThis ?? data.count ?? 0);
+      const code = data.code ?? currentLookup?.code ?? "";
+      const suffix3 = data.suffix3 ?? currentLookup?.suffix3 ?? "";
+      const nameMasked = data.nameMasked ?? currentLookup?.nameMasked ?? "";
+      const registered = data.registered ?? currentLookup?.registered;
+      const used = data.used ?? currentLookup?.used;
+      const remaining = data.remaining ?? currentLookup?.remaining;
+      const ts = data.timeText ?? data.timestampText ?? data.time ?? "";
+
+      cardForm.classList.add("hidden");
+      cardDone.classList.add("hidden");
+      cardResult.classList.remove("hidden");
+
+      cardResult.innerHTML = `
+        <div class="resultWrap">
+          <div class="checkIcon">✓</div>
+          <div class="resultTitle">已放行</div>
+          <div class="bigLine">本次入場：${countThis || Number(elCount.value)} 人</div>
+
+          <div class="kv">
+            <div class="k">入場碼</div>
+            <div class="v">${code ? `<span class="pill">${escapeHtml(code)}</span>` : "-"}</div>
+
+            <div class="k">手機末 3 碼</div>
+            <div class="v">${suffix3 ? escapeHtml(String(suffix3)) : "-"}</div>
+
+            <div class="k">姓名</div>
+            <div class="v">${nameMasked ? escapeHtml(String(nameMasked)) : "-"}</div>
+
+            <div class="k">報名 / 已入場 / 剩餘</div>
+            <div class="v">${
+              (registered!=null && used!=null && remaining!=null)
+                ? `${registered} / ${used} / ${remaining}`
+                : "-"
+            }</div>
+
+            <div class="k">核銷時間</div>
+            <div class="v">${ts ? escapeHtml(String(ts)) : "-"}</div>
+          </div>
+
+          <div class="centerNote">請出示此畫面入場</div>
+
+          <!-- 成功後只留一顆離開 -->
+          <button id="btnExit" class="btnExit" type="button">結束離開</button>
         </div>
-
-        ${res && res.maskedPhone ? `<div class="row"><div class="muted">你輸入</div><div><b>${escapeHtml(res.maskedPhone)}</b></div></div>` : ''}
-        ${res && typeof res.qty !== 'undefined' ? `<div class="row"><div class="muted">報名 / 已入場 / 剩餘</div><div><b>${res.qty} / ${res.used} / ${res.remaining}</b></div></div>` : ''}
-
-        <div class="rule">請跟服務台聯絡</div>
       `;
-      show(viewResult);
+
+      document.getElementById("btnExit").addEventListener("click", () => goDone());
     }
 
-    function escapeHtml(s) {
-      return String(s ?? '')
-        .replaceAll('&','&amp;')
-        .replaceAll('<','&lt;')
-        .replaceAll('>','&gt;')
-        .replaceAll('"','&quot;')
-        .replaceAll("'","&#039;");
+    function goDone() {
+      // 顯示「已完成入場核銷」最簡畫面，避免再回到表單造成重複核銷
+      cardResult.classList.add("hidden");
+      cardDone.classList.remove("hidden");
+
+      // 嘗試關閉（多數手機不允許），所以用提示＋可返回上一頁
+      // 你也可以改成 location.href = "about:blank";
     }
 
-    // 頁面進來先把 actions 隱藏
-    hideActions_();
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#39;");
+    }
+
+    // ---- 事件 ----
+    elPhone.addEventListener("input", () => {
+      // 你要的：未輸完不要提示錯誤 → 所以一律先清訊息
+      clearMsg();
+
+      // debounce lookup
+      if (lookupTimer) clearTimeout(lookupTimer);
+      lookupTimer = setTimeout(doLookupByInput, 300);
+    });
+
+    elPhone.addEventListener("blur", () => {
+      // 離開輸入框再查一次，確保有查到
+      if (lookupTimer) clearTimeout(lookupTimer);
+      lookupTimer = setTimeout(doLookupByInput, 50);
+    });
+
+    elCount.addEventListener("change", () => {
+      elBtnSubmit.disabled = !(currentLookup && currentLookup.ok && elCount.value);
+    });
+
+    elBtnSubmit.addEventListener("click", doCheckin);
+
+    btnExitDone.addEventListener("click", () => {
+      // 最保守：導回同頁，或改成 about:blank
+      // location.href = "about:blank";
+      location.reload();
+    });
+
+    // 初始
+    clearMsg();
+    setFormEnabled(true);
   </script>
 </body>
 </html>
